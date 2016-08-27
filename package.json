@@ -1,0 +1,32 @@
+{
+  "name": "react-minimal-starter-kit",
+  "version": "1.0.0",
+  "description": "A minimal starter kit for a React application",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline",
+    "build": "npm run lint && webpack -p",
+    "lint": "eslint src"
+  },
+  "author": "Kai Cataldo <kaicataldo@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-latest": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "eslint": "^3.4.0",
+    "eslint-loader": "^1.5.0",
+    "eslint-plugin-react": "^6.1.2",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-hot-loader": "^1.3.0",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.0"
+  },
+  "dependencies": {
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
+  }
+}
