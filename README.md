@@ -10,9 +10,9 @@ This project is not intended for production use, though it could be the base for
 
 ## Features
 
- * Bundling and hot module replacement with Webpack
- * Transpilation with Babel (with all the latest ECMAScript features)
- * Static analysis with ESLint
+ * Bundling and hot module replacement with [Webpack](https://webpack.github.io/)
+ * Transpilation with [Babel](http://babeljs.io/) (with all the latest ECMAScript features)
+ * Static analysis with [ESLint](http://eslint.org/)
 
 ## Setup
 
@@ -30,3 +30,5 @@ To start writing code, follow the steps below:
 2. In the react-minimal-starter-kit directory, run `npm start`.
 3. Navigate to `http://localhost:8080/` in your browser.
 4. Start writing code!
+
+To just build the JavaScript bundle once without watching for further changes, run `npm run build`. Note that `dist` is in the .gitignore file and should be removed if you want to check the built JavaScript bundle into your repository.
