@@ -3,7 +3,7 @@
 const path = require('path');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: process.env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'eval',
   entry: [
     'webpack/hot/only-dev-server',
     'babel-polyfill',
