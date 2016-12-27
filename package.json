@@ -1,7 +1,7 @@
 {
-  "name": "react-minimal-starter-kit",
+  "name": "tonal-grid",
   "version": "1.0.0",
-  "description": "A minimal starter kit for a React application",
+  "description": "A tonal grid",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --hot --inline",
     "build": "npm run lint && rimraf dist/*.js && NODE_ENV=production webpack -p",
