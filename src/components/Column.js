@@ -1,5 +1,11 @@
 import React from 'react';
+import noteParser from 'note-parser';
 import Square from './Square';
+import { noteMap } from '../Sound';
+
+function getNoteFreq(index) {
+  return noteParser.parse(noteMap[index]).freq;
+}
 
 export default function Column({ isActive, rowData, index, toggleSquare }) {
   return (
@@ -11,6 +17,8 @@ export default function Column({ isActive, rowData, index, toggleSquare }) {
           key={squareIndex}
           coords={[index, squareIndex]}
           toggleSquare={toggleSquare}
+          freq={getNoteFreq(squareIndex)}
+          type="triangle"
         />
       ))}
     </div>

@@ -27,7 +27,7 @@ export default class Grid extends Component {
   }
 
   tick() {
-    const maxLen = this.props.gridData.length;
+    const maxLen = this.props.gridData.length - 1;
     this.setState({
       activeRow: this.state.activeRow === maxLen ? 0 : this.state.activeRow + 1
     });

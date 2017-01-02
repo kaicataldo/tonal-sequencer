@@ -11,7 +11,6 @@ export default class App extends Component {
       rows: 16,
       gridData: this.generateInitialGridState(16, 16)
     };
-
     this.resetSquares = this.resetSquares.bind(this);
     this.toggleSquare = this.toggleSquare.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
@@ -41,9 +40,9 @@ export default class App extends Component {
     });
   }
 
-  toggleSquare([row, col]) {
+  toggleSquare([col, row]) {
     const gridData = this.state.gridData.slice();
-    gridData[row][col].isSelected = !gridData[row][col].isSelected;
+    gridData[col][row].isSelected = !gridData[col][row].isSelected;
     this.setState({ gridData });
   }
 
