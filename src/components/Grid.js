@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import Column from './Column';
+import noteParser from 'note-parser';
+import Square from './Square';
+import { noteMap } from '../Sound';
+
+function getNoteFreq(index) {
+  return noteParser.parse(noteMap[index]).freq;
+}
 
 export default class Grid extends Component {
   constructor(props) {
@@ -41,14 +47,20 @@ export default class Grid extends Component {
     const { gridData, isPlaying, toggleSquare } = this.props;
     return (
       <div>
-        {gridData.map((rowData, index) => (
-          <Column
-            rowData={rowData}
-            index={index}
-            key={index}
-            isActive={isPlaying && index === this.state.activeRow}
-            toggleSquare={toggleSquare}
-          />
+        {gridData.map((rowData, colIdx) => (
+          <div className="row" key={colIdx}>
+            {rowData.map(({ isSelected }, rowIdx) => (
+              <Square
+                isSelected={isSelected}
+                isActive={isPlaying && colIdx === this.state.activeRow}
+                key={rowIdx}
+                coords={[colIdx, rowIdx]}
+                toggleSquare={toggleSquare}
+                freq={getNoteFreq(rowIdx)}
+                type="triangle"
+              />
+            ))}
+          </div>
         ))}
       </div>
     );

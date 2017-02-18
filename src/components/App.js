@@ -7,7 +7,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       isPlaying: false,
-      columns: 16,
+      cols: 16,
       rows: 16,
       gridData: this.generateInitialGridState(16, 16)
     };
@@ -16,9 +16,9 @@ export default class App extends Component {
     this.togglePlay = this.togglePlay.bind(this);
   }
 
-  generateInitialGridState(columns = this.state.columns, rows = this.state.rows) {
+  generateInitialGridState(cols = this.state.cols, rows = this.state.rows) {
     const state = [];
-    for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < cols; i++) {
       const col = [];
       for (let j = 0; j < rows; j++) {
         col.push({ isSelected: false });
