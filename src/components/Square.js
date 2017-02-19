@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import Sound from '../Sound';
+import Sound from '../lib/Sound';
+import { getNoteFreq } from '../lib/utils/sound';
 
 export default class Square extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.sound = new Sound(props.type, props.freq);
+    const {
+      soundData: {
+        type,
+        scale
+      }
+    } = props;
+    const [, rowIdx] = props.coords;
+    this.sound = new Sound(type, getNoteFreq(scale, rowIdx));
   }
 
   componentDidUpdate() {
@@ -16,17 +23,18 @@ export default class Square extends Component {
     }
   }
 
-  handleClick() {
-    this.props.toggleSquare(this.props.coords);
-  }
-
   getSquareClasses() {
     const { isActive, isSelected } = this.props;
     return `square${isActive ? ' active' : ''}${isSelected ? ' selected' : ''}`;
   }
 
   render() {
-    return <div onClick={this.handleClick} className={this.getSquareClasses()} />;
+    return (
+      <div
+        onClick={() => this.props.toggleSquare(this.props.coords)}
+        className={this.getSquareClasses()}
+      />
+    );
   }
 }
 
@@ -35,6 +43,5 @@ Square.propTypes = {
   isSelected: React.PropTypes.bool,
   coords: React.PropTypes.array,
   toggleSquare: React.PropTypes.func,
-  freq: React.PropTypes.number,
-  type: React.PropTypes.string
+  soundData: React.PropTypes.object,
 };

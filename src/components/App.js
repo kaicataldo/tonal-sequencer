@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
 import Controls from './Controls';
+import { generateNewGridData, generateInitialGridState } from '../lib/utils/grid';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isPlaying: false,
-      cols: 16,
-      rows: 16,
-      gridData: this.generateInitialGridState(16, 16)
-    };
+    // TODO: State can be saved to/loaded from localStorage.
+    this.state = generateInitialGridState();
     this.resetSquares = this.resetSquares.bind(this);
     this.toggleSquare = this.toggleSquare.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
   }
 
-  generateInitialGridState(cols = this.state.cols, rows = this.state.rows) {
-    const state = [];
-    for (let i = 0; i < cols; i++) {
-      const col = [];
-      for (let j = 0; j < rows; j++) {
-        col.push({ isSelected: false });
-      }
-      state[i] = col;
-    }
-    return state;
-  }
-
   resetSquares() {
     this.setState({
-      gridData: this.generateInitialGridState()
+      gridData: generateNewGridData(this.state.cols, this.state.rows)
     });
   }
 
@@ -52,6 +37,8 @@ export default class App extends Component {
         <h1>Tonal Grid</h1>
         <Grid
           gridData={this.state.gridData}
+          soundData={this.state.soundData}
+          tempo={this.state.tempo}
           isPlaying={this.state.isPlaying}
           toggleSquare={this.toggleSquare}
         />

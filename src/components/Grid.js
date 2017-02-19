@@ -1,35 +1,31 @@
 import React, { Component } from 'react';
-import noteParser from 'note-parser';
 import Square from './Square';
-import { noteMap } from '../Sound';
-
-function getNoteFreq(index) {
-  return noteParser.parse(noteMap[index]).freq;
-}
 
 export default class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeRow: 0,
-      tempo: 120
-    };
-  }
-
-  componentDidUpdate() {
-    this.togglePlay(this.props.isPlaying);
-  }
-
-  togglePlay(isPlaying) {
-    if (isPlaying && !this.intervalID) {
-      this.intervalID = window.setInterval(() => this.tick(), this.getTempo());
-    } else if (!isPlaying && this.intervalID) {
-      window.clearInterval(this.intervalID);
-      delete this.intervalID;
-      this.setState({
-        activeRow: 0
-      });
+      activeRow: 0
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isPlaying === prevProps.isPlaying) {
+      return;
+    }
+    this.props.isPlaying ? this.startPlaying() : this.stopPlaying();
+  }
+
+  startPlaying() {
+    this.intervalID = window.setInterval(() => this.tick(), this.getTempoInMs());
+  }
+
+  stopPlaying() {
+    window.clearInterval(this.intervalID);
+    delete this.intervalID;
+    this.setState({
+      activeRow: 0
+    });
   }
 
   tick() {
@@ -39,25 +35,23 @@ export default class Grid extends Component {
     });
   }
 
-  getTempo() {
-    return Math.round((60000 / this.state.tempo) / 4);
+  getTempoInMs() {
+    return Math.round((60000 / this.props.tempo) / 4);
   }
 
   render() {
-    const { gridData, isPlaying, toggleSquare } = this.props;
     return (
       <div>
-        {gridData.map((rowData, colIdx) => (
+        {this.props.gridData.map((rowData, colIdx) => (
           <div className="row" key={colIdx}>
             {rowData.map(({ isSelected }, rowIdx) => (
               <Square
-                isSelected={isSelected}
-                isActive={isPlaying && colIdx === this.state.activeRow}
                 key={rowIdx}
+                isActive={this.props.isPlaying && colIdx === this.state.activeRow}
+                isSelected={isSelected}
                 coords={[colIdx, rowIdx]}
-                toggleSquare={toggleSquare}
-                freq={getNoteFreq(rowIdx)}
-                type="triangle"
+                toggleSquare={this.props.toggleSquare}
+                soundData={this.props.soundData}
               />
             ))}
           </div>
@@ -69,6 +63,8 @@ export default class Grid extends Component {
 
 Grid.propTypes = {
   gridData: React.PropTypes.array,
+  soundData: React.PropTypes.object,
   isPlaying: React.PropTypes.bool,
+  tempo: React.PropTypes.number,
   toggleSquare: React.PropTypes.func
 };

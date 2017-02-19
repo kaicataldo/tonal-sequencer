@@ -1,24 +1,5 @@
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-export const noteMap = {
-  15: 'C4',
-  14: 'D4',
-  13: 'E4',
-  12: 'G4',
-  11: 'A4',
-  10: 'C5',
-  9: 'D5',
-  8: 'E5',
-  7: 'G5',
-  6: 'A5',
-  5: 'C6',
-  4: 'D6',
-  3: 'E6',
-  2: 'G6',
-  1: 'A6',
-  0: 'C7'
-};
-
 export default class Sound {
   constructor(type, freq) {
     this.type = type;
