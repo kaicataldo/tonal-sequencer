@@ -5,14 +5,15 @@ import { getNoteFreq } from '../lib/utils/sound';
 export default class Square extends Component {
   constructor(props) {
     super(props);
-    const {
-      soundData: {
-        type,
-        scale
-      }
-    } = props;
+    const { type, scale } = props;
     const [, rowIdx] = props.coords;
     this.sound = new Sound(type, getNoteFreq(scale, rowIdx));
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.type !== nextProps.type) {
+      this.sound = new Sound(nextProps.type, getNoteFreq(this.props.scale, this.props.coords[1]));
+    }
   }
 
   componentDidUpdate() {
@@ -43,5 +44,6 @@ Square.propTypes = {
   isSelected: React.PropTypes.bool,
   coords: React.PropTypes.array,
   toggleSquare: React.PropTypes.func,
-  soundData: React.PropTypes.object,
+  type: React.PropTypes.string,
+  scale: React.PropTypes.string
 };

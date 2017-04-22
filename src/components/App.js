@@ -11,11 +11,12 @@ export default class App extends Component {
     this.resetSquares = this.resetSquares.bind(this);
     this.toggleSquare = this.toggleSquare.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
+    this.setWaveType = this.setWaveType.bind(this);
   }
 
   resetSquares() {
     this.setState({
-      gridData: generateNewGridData(this.state.cols, this.state.rows)
+      grid: generateNewGridData(this.state.cols, this.state.rows)
     });
   }
 
@@ -25,10 +26,16 @@ export default class App extends Component {
     });
   }
 
+  setWaveType(event) {
+    this.setState({
+      type: event.target.value
+    });
+  }
+
   toggleSquare([col, row]) {
-    const gridData = this.state.gridData.slice();
-    gridData[col][row].isSelected = !gridData[col][row].isSelected;
-    this.setState({ gridData });
+    const grid = this.state.grid.slice();
+    grid[col][row].isSelected = !grid[col][row].isSelected;
+    this.setState({ grid });
   }
 
   render() {
@@ -36,8 +43,9 @@ export default class App extends Component {
       <div>
         <h1>Tonal Grid</h1>
         <Grid
-          gridData={this.state.gridData}
-          soundData={this.state.soundData}
+          grid={this.state.grid}
+          type={this.state.type}
+          scale={this.state.scale}
           tempo={this.state.tempo}
           isPlaying={this.state.isPlaying}
           toggleSquare={this.toggleSquare}
@@ -46,6 +54,8 @@ export default class App extends Component {
           isPlaying={this.state.isPlaying}
           onClearClick={this.resetSquares}
           onStartClick={this.togglePlay}
+          type={this.state.type}
+          onChangeWaveType={this.setWaveType}
         />
       </div>
     );

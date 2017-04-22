@@ -29,7 +29,7 @@ export default class Grid extends Component {
   }
 
   tick() {
-    const maxLen = this.props.gridData.length - 1;
+    const maxLen = this.props.grid.length - 1;
     this.setState({
       activeRow: this.state.activeRow === maxLen ? 0 : this.state.activeRow + 1
     });
@@ -42,7 +42,7 @@ export default class Grid extends Component {
   render() {
     return (
       <div>
-        {this.props.gridData.map((rowData, colIdx) => (
+        {this.props.grid.map((rowData, colIdx) => (
           <div className="row" key={colIdx}>
             {rowData.map(({ isSelected }, rowIdx) => (
               <Square
@@ -51,7 +51,8 @@ export default class Grid extends Component {
                 isSelected={isSelected}
                 coords={[colIdx, rowIdx]}
                 toggleSquare={this.props.toggleSquare}
-                soundData={this.props.soundData}
+                type={this.props.type}
+                scale={this.props.scale}
               />
             ))}
           </div>
@@ -62,8 +63,9 @@ export default class Grid extends Component {
 }
 
 Grid.propTypes = {
-  gridData: React.PropTypes.array,
-  soundData: React.PropTypes.object,
+  grid: React.PropTypes.array,
+  type: React.PropTypes.string,
+  scale: React.PropTypes.string,
   isPlaying: React.PropTypes.bool,
   tempo: React.PropTypes.number,
   toggleSquare: React.PropTypes.func
