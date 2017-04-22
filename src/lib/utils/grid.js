@@ -18,7 +18,7 @@ export function generateInitialGridState() {
     tempo: 120,
     gridData: generateNewGridData(16, 16),
     soundData: {
-      type: 'triangle',
+      type: 'sine',
       scale: 'pentatonic'
     }
   };

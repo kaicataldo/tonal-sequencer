@@ -15,15 +15,25 @@ export default class Sound {
   }
 
   start() {
-    this.isPlaying = true;
+    this.gainNode = audioCtx.createGain();
+    this.gainNode.connect(audioCtx.destination);
+
     this.oscillator = this.createNewAudioNode(this.type, this.freq);
-    this.oscillator.connect(audioCtx.destination);
-    this.oscillator.start();
+    this.oscillator.connect(this.gainNode);
+
+    this.oscillator.start()
+    this.isPlaying = true;
   }
 
   stop() {
-    this.isPlaying = false;
-    this.oscillator.stop();
-    this.oscillator.disconnect(audioCtx.destination);
+    this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, audioCtx.currentTime);
+    this.gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.03);
+
+    setTimeout(() => {
+      this.oscillator.stop();
+      this.gainNode.disconnect();
+      this.oscillator.disconnect();
+      this.isPlaying = false;
+    }, 30)
   }
 }
