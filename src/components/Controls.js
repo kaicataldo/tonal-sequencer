@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function Controls({ isPlaying, onClearClick, onStartClick, type, onChangeWaveType }) {
+export default function Controls({ isPlaying, onClearClick, onStartClick, soundData, onChangeWaveType }) {
+  const { type } = soundData;
+
   return (
     <div>
       <button onClick={onStartClick}>
@@ -23,9 +26,9 @@ export default function Controls({ isPlaying, onClearClick, onStartClick, type, 
 }
 
 Controls.propTypes = {
-  isPlaying: React.PropTypes.bool,
-  onClearClick: React.PropTypes.func,
-  onStartClick: React.PropTypes.func,
-  onChangeWaveType: React.PropTypes.func,
-  type: React.PropTypes.string
+  isPlaying: PropTypes.bool,
+  onClearClick: PropTypes.func,
+  onStartClick: PropTypes.func,
+  onChangeWaveType: PropTypes.func,
+  soundData: PropTypes.object
 }

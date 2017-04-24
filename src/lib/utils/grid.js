@@ -17,8 +17,10 @@ export function generateInitialGridState() {
     rows: 16,
     tempo: 120,
     grid: generateNewGridData(16, 16),
-    type: 'sine',
-    scale: 'pentatonic'
+    sound: {
+      type: 'sine',
+      scale: 'pentatonic'
+    }
   };
 }
 

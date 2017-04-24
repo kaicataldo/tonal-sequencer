@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Square from './Square';
 
 export default class Grid extends Component {
@@ -51,8 +52,7 @@ export default class Grid extends Component {
                 isSelected={isSelected}
                 coords={[colIdx, rowIdx]}
                 toggleSquare={this.props.toggleSquare}
-                type={this.props.type}
-                scale={this.props.scale}
+                soundData={this.props.soundData}
               />
             ))}
           </div>
@@ -63,10 +63,9 @@ export default class Grid extends Component {
 }
 
 Grid.propTypes = {
-  grid: React.PropTypes.array,
-  type: React.PropTypes.string,
-  scale: React.PropTypes.string,
-  isPlaying: React.PropTypes.bool,
-  tempo: React.PropTypes.number,
-  toggleSquare: React.PropTypes.func
+  grid: PropTypes.array,
+  isPlaying: PropTypes.bool,
+  tempo: PropTypes.number,
+  toggleSquare: PropTypes.func,
+  soundData: PropTypes.object
 };

@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Sound from '../lib/Sound';
 import { getNoteFreq } from '../lib/utils/sound';
 
 export default class Square extends Component {
   constructor(props) {
     super(props);
-    const { type, scale } = props;
+    const { soundData: { type, scale } } = props;
     const [, rowIdx] = props.coords;
     this.sound = new Sound(type, getNoteFreq(scale, rowIdx));
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.type !== nextProps.type) {
-      this.sound = new Sound(nextProps.type, getNoteFreq(this.props.scale, this.props.coords[1]));
+    if (this.props.soundData.type !== nextProps.soundData.type) {
+      const noteFreq = getNoteFreq(this.props.soundData.scale, this.props.coords[1]);
+      this.sound = new Sound(nextProps.soundData.type, noteFreq);
     }
   }
 
@@ -40,10 +42,9 @@ export default class Square extends Component {
 }
 
 Square.propTypes = {
-  isActive: React.PropTypes.bool,
-  isSelected: React.PropTypes.bool,
-  coords: React.PropTypes.array,
-  toggleSquare: React.PropTypes.func,
-  type: React.PropTypes.string,
-  scale: React.PropTypes.string
+  isActive: PropTypes.bool,
+  isSelected: PropTypes.bool,
+  coords: PropTypes.array,
+  toggleSquare: PropTypes.func,
+  soundData: PropTypes.object
 };

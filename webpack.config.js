@@ -15,21 +15,28 @@ module.exports = {
     publicPath: '/dist/'
   },
   module: {
-    preLoaders: [{
+    rules: [{
       test: /\.js$/,
       loader: 'eslint-loader',
-      exclude: /node_modules/
-    }],
-    loaders: [{
+      exclude: /node_modules/,
+      enforce: 'pre'
+    },
+    {
       test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
+      use: [
+        'react-hot-loader',
+        'babel-loader'
+      ],
       include: path.join(__dirname, 'src'),
       exclude: /node_modules/
     }]
   },
   resolve: {
-    extensions: ['', '.js'],
-    root: [path.join(__dirname, 'src')]
+    extensions: ['.js'],
+    modules: [
+      path.join(__dirname, "src"),
+      "node_modules"
+    ]
   },
   devServer: {
     quiet: false,

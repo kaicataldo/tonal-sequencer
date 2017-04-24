@@ -28,7 +28,10 @@ export default class App extends Component {
 
   setWaveType(event) {
     this.setState({
-      type: event.target.value
+      sound: {
+        ...this.state.sound,
+        type: event.target.value
+      }
     });
   }
 
@@ -44,8 +47,7 @@ export default class App extends Component {
         <h1>Tonal Grid</h1>
         <Grid
           grid={this.state.grid}
-          type={this.state.type}
-          scale={this.state.scale}
+          soundData={this.state.sound}
           tempo={this.state.tempo}
           isPlaying={this.state.isPlaying}
           toggleSquare={this.toggleSquare}
@@ -54,7 +56,7 @@ export default class App extends Component {
           isPlaying={this.state.isPlaying}
           onClearClick={this.resetSquares}
           onStartClick={this.togglePlay}
-          type={this.state.type}
+          soundData={this.state.sound}
           onChangeWaveType={this.setWaveType}
         />
       </div>
