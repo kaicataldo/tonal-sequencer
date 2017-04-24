@@ -8,20 +8,25 @@ export default class Square extends Component {
     super(props);
     const { soundData: { type, scale } } = props;
     const [, rowIdx] = props.coords;
-    this.sound = new Sound(type, getNoteFreq(scale, rowIdx));
+    this.sound = new Sound({
+      type,
+      freq: getNoteFreq(scale, rowIdx)
+    });
   }
 
   componentWillUpdate(nextProps) {
     if (this.props.soundData.type !== nextProps.soundData.type) {
-      const noteFreq = getNoteFreq(this.props.soundData.scale, this.props.coords[1]);
-      this.sound = new Sound(nextProps.soundData.type, noteFreq);
+      this.sound.setState({
+        type: nextProps.soundData.type,
+        freq: getNoteFreq(this.props.soundData.scale, this.props.coords[1])
+      });
     }
   }
 
   componentDidUpdate() {
-    if (this.props.isActive && this.props.isSelected && !this.sound.isPlaying) {
+    if (this.props.isActive && this.props.isSelected && !this.sound.isPlaying()) {
       this.sound.start();
-    } else if (this.sound.isPlaying) {
+    } else if (this.sound.isPlaying()) {
       this.sound.stop();
     }
   }

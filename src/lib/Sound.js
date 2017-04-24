@@ -1,16 +1,17 @@
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 export default class Sound {
-  constructor(type, freq) {
-    this.type = type;
-    this.freq = freq;
-    this.isPlaying = false;
+  constructor(state) {
+    this.state = state;
+    this.state.isPlaying = false;
   }
 
   createNewAudioNode(type, freq) {
     const oscillator = audioCtx.createOscillator();
+
     oscillator.type = type;
     oscillator.frequency.value = freq;
+
     return oscillator;
   }
 
@@ -18,11 +19,11 @@ export default class Sound {
     this.gainNode = audioCtx.createGain();
     this.gainNode.connect(audioCtx.destination);
 
-    this.oscillator = this.createNewAudioNode(this.type, this.freq);
+    this.oscillator = this.createNewAudioNode(this.state.type, this.state.freq);
     this.oscillator.connect(this.gainNode);
 
     this.oscillator.start()
-    this.isPlaying = true;
+    this.setState({ isPlaying: true });
   }
 
   stop() {
@@ -33,7 +34,15 @@ export default class Sound {
       this.oscillator.stop();
       this.gainNode.disconnect();
       this.oscillator.disconnect();
-      this.isPlaying = false;
+      this.setState({ isPlaying: false });
     }, 30)
+  }
+
+  setState(newState) {
+    this.state = { ...this.state, ...newState };
+  }
+
+  isPlaying() {
+    return this.state.isPlaying;
   }
 }
