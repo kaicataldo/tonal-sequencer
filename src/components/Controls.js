@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Controls({ isPlaying, onClearClick, onStartClick, soundData, onChangeWaveType }) {
-  const { type } = soundData;
+export default function Controls({ isPlaying, onClearClick, onStartClick, sound, onChangeWaveType }) {
+  const { type } = sound;
 
   return (
     <div>
@@ -30,5 +30,5 @@ Controls.propTypes = {
   onClearClick: PropTypes.func,
   onStartClick: PropTypes.func,
   onChangeWaveType: PropTypes.func,
-  soundData: PropTypes.object
+  sound: PropTypes.object
 }

@@ -52,7 +52,7 @@ export default class Grid extends Component {
                 isSelected={isSelected}
                 coords={[colIdx, rowIdx]}
                 toggleSquare={this.props.toggleSquare}
-                soundData={this.props.soundData}
+                sound={this.props.sound}
               />
             ))}
           </div>
@@ -67,5 +67,5 @@ Grid.propTypes = {
   isPlaying: PropTypes.bool,
   tempo: PropTypes.number,
   toggleSquare: PropTypes.func,
-  soundData: PropTypes.object
+  sound: PropTypes.object
 };

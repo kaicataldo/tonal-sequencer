@@ -47,7 +47,7 @@ export default class App extends Component {
         <h1>Tonal Grid</h1>
         <Grid
           grid={this.state.grid}
-          soundData={this.state.sound}
+          sound={this.state.sound}
           tempo={this.state.tempo}
           isPlaying={this.state.isPlaying}
           toggleSquare={this.toggleSquare}
@@ -56,7 +56,7 @@ export default class App extends Component {
           isPlaying={this.state.isPlaying}
           onClearClick={this.resetSquares}
           onStartClick={this.togglePlay}
-          soundData={this.state.sound}
+          sound={this.state.sound}
           onChangeWaveType={this.setWaveType}
         />
       </div>

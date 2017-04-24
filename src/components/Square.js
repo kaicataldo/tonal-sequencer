@@ -6,7 +6,7 @@ import { getNoteFreq } from '../lib/utils/sound';
 export default class Square extends Component {
   constructor(props) {
     super(props);
-    const { soundData: { type, scale } } = props;
+    const { sound: { type, scale } } = props;
     const [, rowIdx] = props.coords;
     this.sound = new Sound({
       type,
@@ -15,10 +15,10 @@ export default class Square extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.soundData.type !== nextProps.soundData.type) {
+    if (this.props.sound.type !== nextProps.sound.type) {
       this.sound.setState({
-        type: nextProps.soundData.type,
-        freq: getNoteFreq(this.props.soundData.scale, this.props.coords[1])
+        type: nextProps.sound.type,
+        freq: getNoteFreq(this.props.sound.scale, this.props.coords[1])
       });
     }
   }
@@ -51,5 +51,5 @@ Square.propTypes = {
   isSelected: PropTypes.bool,
   coords: PropTypes.array,
   toggleSquare: PropTypes.func,
-  soundData: PropTypes.object
+  sound: PropTypes.object
 };
