@@ -11,7 +11,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: "app.js",
+    filename: 'app.js',
     publicPath: '/dist/'
   },
   module: {
@@ -34,8 +34,8 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     modules: [
-      path.join(__dirname, "src"),
-      "node_modules"
+      path.join(__dirname, 'src'),
+      'node_modules'
     ]
   },
   devServer: {
@@ -51,4 +51,4 @@ module.exports = {
       chunkModules: false
     }
   }
-}
+};

@@ -7,44 +7,21 @@ export default class Grid extends Component {
     super(props);
     this.state = {
       activeRow: 0
-    }
+    };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.isPlaying === prevProps.isPlaying) {
       return;
     }
-    this.props.isPlaying ? this.startPlaying() : this.stopPlaying();
-  }
-
-  startPlaying() {
-    this.intervalID = window.setInterval(() => this.tick(), this.getTempoInMs());
-  }
-
-  stopPlaying() {
-    window.clearInterval(this.intervalID);
-    delete this.intervalID;
-    this.setState({
-      activeRow: 0
-    });
-  }
-
-  tick() {
-    const maxLen = this.props.grid.length - 1;
-    this.setState({
-      activeRow: this.state.activeRow === maxLen ? 0 : this.state.activeRow + 1
-    });
-  }
-
-  getTempoInMs() {
-    return Math.round((60000 / this.props.tempo) / 4);
+    this.props.isPlaying ? this._startPlaying() : this._stopPlaying();
   }
 
   render() {
     return (
       <div>
         {this.props.grid.map((rowData, colIdx) => (
-          <div className="row" key={colIdx}>
+          <div className='row' key={colIdx}>
             {rowData.map(({ isSelected }, rowIdx) => (
               <Square
                 key={rowIdx}
@@ -59,6 +36,29 @@ export default class Grid extends Component {
         ))}
       </div>
     );
+  }
+
+  _startPlaying() {
+    this.intervalID = window.setInterval(() => this._tick(), this._getTempoInMs());
+  }
+
+  _stopPlaying() {
+    window.clearInterval(this.intervalID);
+    delete this.intervalID;
+    this.setState({
+      activeRow: 0
+    });
+  }
+
+  _tick() {
+    const maxLen = this.props.grid.length - 1;
+    this.setState({
+      activeRow: this.state.activeRow === maxLen ? 0 : this.state.activeRow + 1
+    });
+  }
+
+  _getTempoInMs() {
+    return Math.round((60000 / this.props.tempo) / 4);
   }
 }
 

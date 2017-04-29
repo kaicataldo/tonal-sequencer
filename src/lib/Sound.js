@@ -1,29 +1,29 @@
+import { toFreq } from 'tonal-freq';
+
+const scaleMap = {
+  pentatonic: ['C7', 'A6', 'G6', 'E6', 'D6', 'C6', 'A5', 'G5', 'E5', 'D5', 'C5', 'A4', 'G4', 'E4', 'D4', 'C4']
+};
+
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 export default class Sound {
-  constructor(state) {
-    this.state = state;
-    this.state.isPlaying = false;
-  }
-
-  createNewAudioNode(type, freq) {
-    const oscillator = audioCtx.createOscillator();
-
-    oscillator.type = type;
-    oscillator.frequency.value = freq;
-
-    return oscillator;
+  constructor({ type, scale, index }) {
+    this.type = type;
+    this.scale = scale;
+    this.index = index;
+    this.freq = this._getNoteFreq(scale, index);
+    this.isPlaying = false;
   }
 
   start() {
     this.gainNode = audioCtx.createGain();
     this.gainNode.connect(audioCtx.destination);
 
-    this.oscillator = this.createNewAudioNode(this.state.type, this.state.freq);
+    this.oscillator = this._createNewAudioNode(this.type, this.freq);
     this.oscillator.connect(this.gainNode);
 
-    this.oscillator.start()
-    this.setState({ isPlaying: true });
+    this.oscillator.start();
+    this.isPlaying = true;
   }
 
   stop() {
@@ -34,15 +34,27 @@ export default class Sound {
       this.oscillator.stop();
       this.gainNode.disconnect();
       this.oscillator.disconnect();
-      this.setState({ isPlaying: false });
-    }, 30)
+      this.isPlaying = false;
+    }, 30);
   }
 
-  setState(newState) {
-    this.state = { ...this.state, ...newState };
+  update(state) {
+    for (const data in state) {
+      this[data] = state[data];
+    }
+    this.freq = this._getNoteFreq();
   }
 
-  isPlaying() {
-    return this.state.isPlaying;
+  _getNoteFreq() {
+    return toFreq(scaleMap[this.scale][this.index]);
+  }
+
+  _createNewAudioNode(type, freq) {
+    const oscillator = audioCtx.createOscillator();
+
+    oscillator.type = type;
+    oscillator.frequency.value = freq;
+
+    return oscillator;
   }
 }

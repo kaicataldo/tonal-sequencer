@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 export default function Controls({ isPlaying, onClearClick, onStartClick, sound, onChangeWaveType }) {
   const { type } = sound;
-
   return (
     <div>
       <button onClick={onStartClick}>
@@ -31,4 +30,4 @@ Controls.propTypes = {
   onStartClick: PropTypes.func,
   onChangeWaveType: PropTypes.func,
   sound: PropTypes.object
-}
+};

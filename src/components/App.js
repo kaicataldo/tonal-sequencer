@@ -1,29 +1,39 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
 import Controls from './Controls';
-import { generateNewGridData, generateInitialGridState } from '../lib/utils/grid';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+
     // TODO: State can be saved to/loaded from localStorage.
-    this.state = generateInitialGridState();
+    this.state = {
+      isPlaying: false,
+      cols: 16,
+      rows: 16,
+      tempo: 120,
+      sound: {
+        type: 'sine',
+        scale: 'pentatonic'
+      }
+    };
+
     this.resetSquares = this.resetSquares.bind(this);
     this.toggleSquare = this.toggleSquare.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
     this.setWaveType = this.setWaveType.bind(this);
   }
 
+  componentWillMount() {
+    this.setState({ grid: this._generateNewGridData() });
+  }
+
   resetSquares() {
-    this.setState({
-      grid: generateNewGridData(this.state.cols, this.state.rows)
-    });
+    this.setState({ grid: this._generateNewGridData() });
   }
 
   togglePlay() {
-    this.setState({
-      isPlaying: !this.state.isPlaying
-    });
+    this.setState({ isPlaying: !this.state.isPlaying });
   }
 
   setWaveType(event) {
@@ -61,5 +71,20 @@ export default class App extends Component {
         />
       </div>
     );
+  }
+
+  _generateNewGridData() {
+    const cols = this.state.cols || 16;
+    const rows = this.state.rows || 16;
+    const state = [];
+
+    for (let i = 0; i < cols; i++) {
+      const col = [];
+      for (let j = 0; j < rows; j++) {
+        col.push({ isSelected: false });
+      }
+      state[i] = col;
+    }
+    return state;
   }
 }

@@ -1,48 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Sound from '../lib/Sound';
-import { getNoteFreq } from '../lib/utils/sound';
 
 export default class Square extends Component {
   constructor(props) {
     super(props);
     const { sound: { type, scale } } = props;
     const [, rowIdx] = props.coords;
-    this.sound = new Sound({
-      type,
-      freq: getNoteFreq(scale, rowIdx)
-    });
+    this.sound = new Sound({ type, scale, index: rowIdx });
   }
 
   componentWillUpdate(nextProps) {
     if (this.props.sound.type !== nextProps.sound.type) {
-      this.sound.setState({
+      this.sound.update({
         type: nextProps.sound.type,
-        freq: getNoteFreq(this.props.sound.scale, this.props.coords[1])
+        scale: this.props.sound.scale,
+        index: this.props.coords[1]
       });
     }
   }
 
   componentDidUpdate() {
-    if (this.props.isActive && this.props.isSelected && !this.sound.isPlaying()) {
+    if (this.props.isActive && this.props.isSelected && !this.sound.isPlaying) {
       this.sound.start();
-    } else if (this.sound.isPlaying()) {
+    } else if (this.sound.isPlaying) {
       this.sound.stop();
     }
-  }
-
-  getSquareClasses() {
-    const { isActive, isSelected } = this.props;
-    return `square${isActive ? ' active' : ''}${isSelected ? ' selected' : ''}`;
   }
 
   render() {
     return (
       <div
         onClick={() => this.props.toggleSquare(this.props.coords)}
-        className={this.getSquareClasses()}
+        className={this._getSquareClasses()}
       />
     );
+  }
+
+  _getSquareClasses() {
+    const { isActive, isSelected } = this.props;
+    return `square${isActive ? ' active' : ''}${isSelected ? ' selected' : ''}`;
   }
 }
 
