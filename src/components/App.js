@@ -12,16 +12,14 @@ export default class App extends Component {
       cols: 16,
       rows: 16,
       tempo: 120,
-      sound: {
-        type: 'sine',
-        scale: 'pentatonic'
-      }
+      type: 'sine',
+      scale: 'pentatonic'
     };
 
     this.resetSquares = this.resetSquares.bind(this);
     this.toggleSquare = this.toggleSquare.bind(this);
     this.togglePlay = this.togglePlay.bind(this);
-    this.setWaveType = this.setWaveType.bind(this);
+    this.controlChangeHandler = this.controlChangeHandler.bind(this);
   }
 
   componentWillMount() {
@@ -36,12 +34,14 @@ export default class App extends Component {
     this.setState({ isPlaying: !this.state.isPlaying });
   }
 
-  setWaveType(event) {
+  controlChangeHandler(type, event) {
+    let val = event.target.value;
+    if (type === 'tempo') {
+      val = Number(val);
+    }
     this.setState({
-      sound: {
-        ...this.state.sound,
-        type: event.target.value
-      }
+      ...this.state,
+      [type]: val
     });
   }
 
@@ -57,7 +57,8 @@ export default class App extends Component {
         <h1>Tonal Grid</h1>
         <Grid
           grid={this.state.grid}
-          sound={this.state.sound}
+          type={this.state.type}
+          scale={this.state.scale}
           tempo={this.state.tempo}
           isPlaying={this.state.isPlaying}
           toggleSquare={this.toggleSquare}
@@ -66,8 +67,10 @@ export default class App extends Component {
           isPlaying={this.state.isPlaying}
           onClearClick={this.resetSquares}
           onStartClick={this.togglePlay}
-          sound={this.state.sound}
-          onChangeWaveType={this.setWaveType}
+          type={this.state.type}
+          scale={this.state.scale}
+          tempo={this.state.tempo}
+          onControlChange={this.controlChangeHandler}
         />
       </div>
     );

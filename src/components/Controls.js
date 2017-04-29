@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Controls({ isPlaying, onClearClick, onStartClick, sound, onChangeWaveType }) {
-  const { type } = sound;
+export default function Controls({ isPlaying, onClearClick, onStartClick, tempo, type, onControlChange }) {
   return (
     <div>
       <button onClick={onStartClick}>
@@ -11,7 +10,8 @@ export default function Controls({ isPlaying, onClearClick, onStartClick, sound,
       <button onClick={onClearClick}>
         Clear
       </button>
-      <select value={type} onChange={onChangeWaveType}>
+      <label htmlFor='type'>Type</label>
+      <select name='type' value={type} onChange={(...args) => onControlChange('type', ...args)}>
         {['sine', 'sawtooth', 'square', 'triangle'].map((type, i) => {
           return (
             <option key={i} value={type}>
@@ -20,6 +20,16 @@ export default function Controls({ isPlaying, onClearClick, onStartClick, sound,
           );
         })}
       </select>
+      <label htmlFor='tempo'>Tempo: {tempo}</label>
+      <input
+        value={tempo}
+        name='tempo'
+        type='range'
+        min='1'
+        max='250'
+        step='1'
+        onChange={(...args) => onControlChange('tempo', ...args)}
+        ></input>
     </div>
   );
 }
@@ -28,6 +38,7 @@ Controls.propTypes = {
   isPlaying: PropTypes.bool,
   onClearClick: PropTypes.func,
   onStartClick: PropTypes.func,
-  onChangeWaveType: PropTypes.func,
-  sound: PropTypes.object
+  onControlChange: PropTypes.func,
+  type: PropTypes.string,
+  tempo: PropTypes.number
 };

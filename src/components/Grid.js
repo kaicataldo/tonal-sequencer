@@ -11,6 +11,9 @@ export default class Grid extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.tempo !== prevProps.tempo) {
+      this._updateTempo();
+    }
     if (this.props.isPlaying === prevProps.isPlaying) {
       return;
     }
@@ -29,7 +32,8 @@ export default class Grid extends Component {
                 isSelected={isSelected}
                 coords={[colIdx, rowIdx]}
                 toggleSquare={this.props.toggleSquare}
-                sound={this.props.sound}
+                type={this.props.type}
+                scale={this.props.scale}
               />
             ))}
           </div>
@@ -42,12 +46,21 @@ export default class Grid extends Component {
     this.intervalID = window.setInterval(() => this._tick(), this._getTempoInMs());
   }
 
-  _stopPlaying() {
+  _clearInterval() {
     window.clearInterval(this.intervalID);
-    delete this.intervalID;
+    this.intervalID = null;
+  }
+
+  _stopPlaying() {
+    this._clearInterval();
     this.setState({
       activeRow: 0
     });
+  }
+
+  _updateTempo() {
+    this._clearInterval();
+    this._startPlaying();
   }
 
   _tick() {
@@ -63,9 +76,10 @@ export default class Grid extends Component {
 }
 
 Grid.propTypes = {
-  grid: PropTypes.array,
   isPlaying: PropTypes.bool,
-  tempo: PropTypes.number,
   toggleSquare: PropTypes.func,
-  sound: PropTypes.object
+  grid: PropTypes.array,
+  tempo: PropTypes.number,
+  type: PropTypes.string,
+  scale: PropTypes.string
 };

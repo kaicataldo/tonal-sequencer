@@ -5,16 +5,16 @@ import Sound from '../lib/Sound';
 export default class Square extends Component {
   constructor(props) {
     super(props);
-    const { sound: { type, scale } } = props;
+    const { type, scale } = props;
     const [, rowIdx] = props.coords;
     this.sound = new Sound({ type, scale, index: rowIdx });
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.sound.type !== nextProps.sound.type) {
+    if (this.props.type !== nextProps.type) {
       this.sound.update({
-        type: nextProps.sound.type,
-        scale: this.props.sound.scale,
+        type: nextProps.type,
+        scale: this.props.scale,
         index: this.props.coords[1]
       });
     }
@@ -47,6 +47,7 @@ Square.propTypes = {
   isActive: PropTypes.bool,
   isSelected: PropTypes.bool,
   coords: PropTypes.array,
-  toggleSquare: PropTypes.func,
-  sound: PropTypes.object
+  type: PropTypes.string,
+  scale: PropTypes.string,
+  toggleSquare: PropTypes.func
 };
