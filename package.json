@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "A tonal sequencer",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --hot --inline",
-    "build": "npm run lint && rimraf dist/*.js && NODE_ENV=production webpack -p",
-    "lint": "eslint ."
+    "start": "NODE_ENV=development webpack-dev-server",
+    "build": "rimraf dist && webpack -p",
+    "lint": "eslint .",
+    "test": "npm run lint"
   },
   "author": "Kai Cataldo <kaicataldo@gmail.com>",
   "license": "MIT",
@@ -19,19 +20,19 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "eslint": "^3.19.0",
-    "eslint-loader": "^1.7.1",
     "eslint-plugin-react": "^6.10.3",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-hot-loader": "^1.3.0",
     "rimraf": "^2.6.1",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.4"
+    "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-hot-loader": "^3.0.0-beta.6",
     "tonal-freq": "^0.69.5"
   }
 }
