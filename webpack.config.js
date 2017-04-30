@@ -2,13 +2,11 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 
-module.exports = {
+let config = {
   devtool: process.env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'inline-source-map',
   entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
     'babel-polyfill',
     './src/index.js'
   ],
@@ -20,11 +18,10 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
-      use: [
-        'babel-loader'
-      ],
-      include: path.resolve(__dirname, 'src'),
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader'
+      }
     }]
   },
   resolve: {
@@ -33,14 +30,36 @@ module.exports = {
       path.resolve(__dirname, 'src'),
       'node_modules'
     ]
-  },
-  devServer: {
-    hot: true,
-    contentBase: path.resolve(__dirname),
-    publicPath: '/dist/'
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-  ]
+  }
 };
+
+if (process.env.NODE_ENV === 'development') {
+  config = merge.strategy({
+    entry: 'prepend'
+  })(config, {
+    module: {
+      rules: [{
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        enforce: 'pre'
+      }]
+    },
+    entry: [
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://localhost:8080',
+      'webpack/hot/only-dev-server'
+    ],
+    devServer: {
+      hot: true,
+      contentBase: path.resolve(__dirname),
+      publicPath: '/dist/'
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NamedModulesPlugin()
+    ]
+  });
+}
+
+module.exports = config;
