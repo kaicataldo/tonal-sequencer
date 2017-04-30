@@ -27,9 +27,7 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-react": "^6.10.3",
     "pre-commit": "^1.2.2",
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1",
-    "react-hot-loader": "^1.3.0",
+    "react-hot-loader": "^3.0.0-beta.6",
     "rimraf": "^2.6.1",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5",
@@ -39,7 +37,6 @@
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-hot-loader": "^3.0.0-beta.6",
     "tonal-freq": "^0.69.5"
   }
 }
