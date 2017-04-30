@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { waveTypes } from '../lib/sound-utils';
 
 export default function Controls({ isPlaying, onClearClick, onStartClick, tempo, type, onControlChange }) {
   return (
@@ -12,7 +13,7 @@ export default function Controls({ isPlaying, onClearClick, onStartClick, tempo,
       </button>
       <label htmlFor='type'>Type</label>
       <select name='type' value={type} onChange={(...args) => onControlChange('type', ...args)}>
-        {['sine', 'sawtooth', 'square', 'triangle'].map((type, i) => {
+        {waveTypes.map((type, i) => {
           return (
             <option key={i} value={type}>
               {type}

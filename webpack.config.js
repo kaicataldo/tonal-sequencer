@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 let config = {
-  devtool: process.env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'inline-source-map',
+  devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-module-source-map',
   entry: [
     'babel-polyfill',
     './src/index.js'
