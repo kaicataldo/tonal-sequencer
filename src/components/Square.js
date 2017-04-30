@@ -33,6 +33,12 @@ export default class Square extends Component {
       <div
         onClick={() => this.props.toggleSquare(this.props.coords)}
         className={this._getSquareClasses()}
+        style={{
+          border: 'solid 1px black',
+          height: '24px',
+          width: '24px',
+          background: this._getBackgroundColor()
+        }}
       />
     );
   }
@@ -40,6 +46,19 @@ export default class Square extends Component {
   _getSquareClasses() {
     const { isActive, isSelected } = this.props;
     return `square${isActive ? ' active' : ''}${isSelected ? ' selected' : ''}`;
+  }
+
+  _getBackgroundColor() {
+    const { isActive, isSelected } = this.props;
+    if (isActive && isSelected) {
+      return 'yellow';
+    } else if (isActive) {
+      return 'blue';
+    } else if (isSelected) {
+      return 'red';
+    } else {
+      return '';
+    }
   }
 }
 
