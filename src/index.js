@@ -1,3 +1,4 @@
+// @flow
 /* global module */
 
 import React from 'react';

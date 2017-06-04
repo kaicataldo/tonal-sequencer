@@ -1,20 +1,18 @@
 module.exports = {
-  parserOptions: {
-    ecmaVersion: 2017,
-    ecmaFeatures: {
-      jsx: true,
-      experimentalObjectRestSpread: true
-    },
-    sourceType: 'module'
-  },
+  'parser': 'babel-eslint',
   env: {
     es6: true,
     browser: true
   },
   plugins: [
-    "react"
+    'react',
+    'flowtype'
   ],
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:flowtype/recommended'
+  ],
   rules: {
     semi: 'error',
     quotes: ['error', 'single']
