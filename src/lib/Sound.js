@@ -1,5 +1,5 @@
-import { toFreq } from 'tonal-freq';
-import { scaleMap } from './sound-utils';
+import { toFreq } from "tonal-freq";
+import { scaleMap } from "./sound-utils";
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -24,8 +24,14 @@ export default class Sound {
   }
 
   stop() {
-    this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, audioCtx.currentTime);
-    this.gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.03);
+    this.gainNode.gain.setValueAtTime(
+      this.gainNode.gain.value,
+      audioCtx.currentTime
+    );
+    this.gainNode.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioCtx.currentTime + 0.03
+    );
 
     setTimeout(() => {
       this.oscillator.stop();

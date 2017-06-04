@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Grid from './Grid';
-import Controls from './Controls';
+import React, { Component } from "react";
+import Grid from "./Grid";
+import Controls from "./Controls";
 
 export default class App extends Component {
   constructor(props) {
@@ -12,8 +12,8 @@ export default class App extends Component {
       cols: 16,
       rows: 16,
       tempo: 120,
-      type: 'sine',
-      scale: 'pentatonic'
+      type: "sine",
+      scale: "pentatonic"
     };
 
     this.resetSquares = this.resetSquares.bind(this);
@@ -36,7 +36,7 @@ export default class App extends Component {
 
   controlChangeHandler(type, event) {
     let val = event.target.value;
-    if (type === 'tempo') {
+    if (type === "tempo") {
       val = Number(val);
     }
     this.setState({

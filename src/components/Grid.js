@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Square from './Square';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Square from "./Square";
 
 export default class Grid extends Component {
   constructor(props) {
@@ -23,31 +23,32 @@ export default class Grid extends Component {
   render() {
     return (
       <div>
-        {this.props.grid.map((rowData, colIdx) => (
-          <div
-            className='row'
-            style={{ display: 'inline-block' }}
-            key={colIdx}
-          >
-            {rowData.map(({ isSelected }, rowIdx) => (
+        {this.props.grid.map((rowData, colIdx) =>
+          <div className="row" style={{ display: "inline-block" }} key={colIdx}>
+            {rowData.map(({ isSelected }, rowIdx) =>
               <Square
                 key={rowIdx}
-                isActive={this.props.isPlaying && colIdx === this.state.activeRow}
+                isActive={
+                  this.props.isPlaying && colIdx === this.state.activeRow
+                }
                 isSelected={isSelected}
                 coords={[colIdx, rowIdx]}
                 toggleSquare={this.props.toggleSquare}
                 type={this.props.type}
                 scale={this.props.scale}
               />
-            ))}
+            )}
           </div>
-        ))}
+        )}
       </div>
     );
   }
 
   _startPlaying() {
-    this.intervalID = window.setInterval(() => this._tick(), this._getTempoInMs());
+    this.intervalID = window.setInterval(
+      () => this._tick(),
+      this._getTempoInMs()
+    );
   }
 
   _clearInterval() {
@@ -75,7 +76,7 @@ export default class Grid extends Component {
   }
 
   _getTempoInMs() {
-    return Math.round((60000 / this.props.tempo) / 4);
+    return Math.round(60000 / this.props.tempo / 4);
   }
 }
 

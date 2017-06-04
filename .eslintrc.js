@@ -12,9 +12,5 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:flowtype/recommended'
-  ],
-  rules: {
-    semi: 'error',
-    quotes: ['error', 'single']
-  }
+  ]
 };

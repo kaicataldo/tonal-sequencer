@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Sound from '../lib/Sound';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Sound from "../lib/Sound";
 
 export default class Square extends Component {
   constructor(props) {
@@ -34,9 +34,9 @@ export default class Square extends Component {
         onClick={() => this.props.toggleSquare(this.props.coords)}
         className={this._getSquareClasses()}
         style={{
-          border: 'solid 1px black',
-          height: '24px',
-          width: '24px',
+          border: "solid 1px black",
+          height: "24px",
+          width: "24px",
           background: this._getBackgroundColor()
         }}
       />
@@ -45,19 +45,19 @@ export default class Square extends Component {
 
   _getSquareClasses() {
     const { isActive, isSelected } = this.props;
-    return `square${isActive ? ' active' : ''}${isSelected ? ' selected' : ''}`;
+    return `square${isActive ? " active" : ""}${isSelected ? " selected" : ""}`;
   }
 
   _getBackgroundColor() {
     const { isActive, isSelected } = this.props;
     if (isActive && isSelected) {
-      return 'yellow';
+      return "yellow";
     } else if (isActive) {
-      return 'blue';
+      return "blue";
     } else if (isSelected) {
-      return 'red';
+      return "red";
     } else {
-      return '';
+      return "";
     }
   }
 }
