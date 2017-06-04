@@ -15,7 +15,7 @@ export default function Controls({
   onClearClick: Function,
   onStartClick: Function,
   onControlChange: Function,
-  type: string,
+  type: WaveType,
   tempo: number
 }) {
   return (
