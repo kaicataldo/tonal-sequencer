@@ -37,14 +37,6 @@ if (process.env.NODE_ENV === 'development') {
   config = merge.strategy({
     entry: 'prepend'
   })(config, {
-    module: {
-      rules: [{
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-        enforce: 'pre'
-      }]
-    },
     entry: [
       'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:8080',

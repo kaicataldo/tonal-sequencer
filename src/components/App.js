@@ -1,41 +1,40 @@
+// @flow
+
 import React, { Component } from "react";
 import Grid from "./Grid";
 import Controls from "./Controls";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    isPlaying: false,
+    cols: 16,
+    rows: 16,
+    tempo: 120,
+    type: "sine",
+    scale: "pentatonic",
+    grid: this._generateNewGridData()
+  };
 
-    // TODO: State can be saved to/loaded from localStorage.
-    this.state = {
-      isPlaying: false,
-      cols: 16,
-      rows: 16,
-      tempo: 120,
-      type: "sine",
-      scale: "pentatonic"
-    };
-
-    this.resetSquares = this.resetSquares.bind(this);
-    this.toggleSquare = this.toggleSquare.bind(this);
-    this.togglePlay = this.togglePlay.bind(this);
-    this.controlChangeHandler = this.controlChangeHandler.bind(this);
-  }
-
-  componentWillMount() {
+  resetSquares = () => {
     this.setState({ grid: this._generateNewGridData() });
-  }
+  };
 
-  resetSquares() {
-    this.setState({ grid: this._generateNewGridData() });
-  }
-
-  togglePlay() {
+  togglePlay = () => {
     this.setState({ isPlaying: !this.state.isPlaying });
-  }
+  };
 
-  controlChangeHandler(type, event) {
-    let val = event.target.value;
+  toggleSquare = ([col, row]: [number, number]) => {
+    const grid = this.state.grid.slice();
+    grid[col][row].isSelected = !grid[col][row].isSelected;
+    this.setState({ grid });
+  };
+
+  controlChangeHandler = (
+    type: string,
+    event: Event & { currentTarget: HTMLSelectElement }
+  ) => {
+    let val = event.currentTarget.value;
+
     if (type === "tempo") {
       val = Number(val);
     }
@@ -43,12 +42,25 @@ export default class App extends Component {
       ...this.state,
       [type]: val
     });
+  };
+
+  _generateNewGridData(): Array<Array<{ isSelected: boolean }>> {
+    const cols = (this.state && this.state.cols) || 16;
+    const rows = (this.state && this.state.rows) || 16;
+    const state = [];
+
+    for (let i = 0; i < cols; i++) {
+      const col = [];
+      for (let j = 0; j < rows; j++) {
+        col.push({ isSelected: false });
+      }
+      state[i] = col;
+    }
+    return state;
   }
 
-  toggleSquare([col, row]) {
-    const grid = this.state.grid.slice();
-    grid[col][row].isSelected = !grid[col][row].isSelected;
-    this.setState({ grid });
+  componentWillMount() {
+    this.setState({ grid: this._generateNewGridData() });
   }
 
   render() {
@@ -74,20 +86,5 @@ export default class App extends Component {
         />
       </div>
     );
-  }
-
-  _generateNewGridData() {
-    const cols = this.state.cols || 16;
-    const rows = this.state.rows || 16;
-    const state = [];
-
-    for (let i = 0; i < cols; i++) {
-      const col = [];
-      for (let j = 0; j < rows; j++) {
-        col.push({ isSelected: false });
-      }
-      state[i] = col;
-    }
-    return state;
   }
 }
