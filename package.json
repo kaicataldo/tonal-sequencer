@@ -43,7 +43,6 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
-    "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "tonal-freq": "^0.69.5"

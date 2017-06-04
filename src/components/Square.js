@@ -1,16 +1,29 @@
+// @flow
+
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Sound from "../lib/Sound";
 
+type Props = {
+  isActive: boolean,
+  isSelected: boolean,
+  coords: Array<number>,
+  type: WaveType,
+  scale: string,
+  toggleSquare: Function
+};
+
 export default class Square extends Component {
-  constructor(props) {
-    super(props);
-    const { type, scale } = props;
-    const [, rowIdx] = props.coords;
-    this.sound = new Sound({ type, scale, index: rowIdx });
+  props: Props;
+
+  sound = this._createNewSound();
+
+  _createNewSound() {
+    const { type, scale } = this.props;
+    const [, rowIdx] = this.props.coords;
+    return new Sound({ type, scale, index: rowIdx });
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate(nextProps: Props) {
     if (this.props.type !== nextProps.type) {
       this.sound.update({
         type: nextProps.type,
@@ -43,12 +56,12 @@ export default class Square extends Component {
     );
   }
 
-  _getSquareClasses() {
+  _getSquareClasses(): string {
     const { isActive, isSelected } = this.props;
     return `square${isActive ? " active" : ""}${isSelected ? " selected" : ""}`;
   }
 
-  _getBackgroundColor() {
+  _getBackgroundColor(): string {
     const { isActive, isSelected } = this.props;
     if (isActive && isSelected) {
       return "yellow";
@@ -61,12 +74,3 @@ export default class Square extends Component {
     }
   }
 }
-
-Square.propTypes = {
-  isActive: PropTypes.bool,
-  isSelected: PropTypes.bool,
-  coords: PropTypes.array,
-  type: PropTypes.string,
-  scale: PropTypes.string,
-  toggleSquare: PropTypes.func
-};

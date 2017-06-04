@@ -1,5 +1,6 @@
+// @flow
+
 import React from "react";
-import PropTypes from "prop-types";
 import { waveTypes } from "../lib/sound-utils";
 
 export default function Controls({
@@ -9,6 +10,13 @@ export default function Controls({
   onControlChange,
   type,
   tempo
+}: {
+  isPlaying: boolean,
+  onClearClick: Function,
+  onStartClick: Function,
+  onControlChange: Function,
+  type: string,
+  tempo: number
 }) {
   return (
     <div>
@@ -49,12 +57,3 @@ export default function Controls({
     </div>
   );
 }
-
-Controls.propTypes = {
-  isPlaying: PropTypes.bool,
-  onClearClick: PropTypes.func,
-  onStartClick: PropTypes.func,
-  onControlChange: PropTypes.func,
-  type: PropTypes.string,
-  tempo: PropTypes.number
-};

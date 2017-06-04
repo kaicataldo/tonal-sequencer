@@ -1,48 +1,25 @@
+// @flow
+
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Square from "./Square";
 
+type Props = {
+  isPlaying: boolean,
+  toggleSquare: Function,
+  grid: Array<Array<{ isSelected: boolean }>>,
+  tempo: number,
+  type: WaveType,
+  scale: string
+};
+
 export default class Grid extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeRow: 0
-    };
-  }
+  props: Props;
 
-  componentDidUpdate(prevProps) {
-    if (this.props.tempo !== prevProps.tempo) {
-      this._updateTempo();
-    }
-    if (this.props.isPlaying === prevProps.isPlaying) {
-      return;
-    }
-    this.props.isPlaying ? this._startPlaying() : this._stopPlaying();
-  }
+  state = {
+    activeRow: 0
+  };
 
-  render() {
-    return (
-      <div>
-        {this.props.grid.map((rowData, colIdx) =>
-          <div className="row" style={{ display: "inline-block" }} key={colIdx}>
-            {rowData.map(({ isSelected }, rowIdx) =>
-              <Square
-                key={rowIdx}
-                isActive={
-                  this.props.isPlaying && colIdx === this.state.activeRow
-                }
-                isSelected={isSelected}
-                coords={[colIdx, rowIdx]}
-                toggleSquare={this.props.toggleSquare}
-                type={this.props.type}
-                scale={this.props.scale}
-              />
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
+  intervalID = null;
 
   _startPlaying() {
     this.intervalID = window.setInterval(
@@ -75,16 +52,41 @@ export default class Grid extends Component {
     });
   }
 
-  _getTempoInMs() {
+  _getTempoInMs(): number {
     return Math.round(60000 / this.props.tempo / 4);
   }
-}
 
-Grid.propTypes = {
-  isPlaying: PropTypes.bool,
-  toggleSquare: PropTypes.func,
-  grid: PropTypes.array,
-  tempo: PropTypes.number,
-  type: PropTypes.string,
-  scale: PropTypes.string
-};
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.tempo !== prevProps.tempo) {
+      this._updateTempo();
+    }
+    if (this.props.isPlaying === prevProps.isPlaying) {
+      return;
+    }
+    this.props.isPlaying ? this._startPlaying() : this._stopPlaying();
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.grid.map((rowData, colIdx) =>
+          <div className="row" style={{ display: "inline-block" }} key={colIdx}>
+            {rowData.map(({ isSelected }, rowIdx) =>
+              <Square
+                key={rowIdx}
+                isActive={
+                  this.props.isPlaying && colIdx === this.state.activeRow
+                }
+                isSelected={isSelected}
+                coords={[colIdx, rowIdx]}
+                toggleSquare={this.props.toggleSquare}
+                type={this.props.type}
+                scale={this.props.scale}
+              />
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+}

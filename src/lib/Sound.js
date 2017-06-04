@@ -1,58 +1,84 @@
+// @flow
+
 import { toFreq } from "tonal-freq";
 import { scaleMap } from "./sound-utils";
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const audioCtx: AudioContext = new (window.AudioContext ||
+  window.webkitAudioContext)();
 
 export default class Sound {
-  constructor({ type, scale, index }) {
-    this.type = type;
-    this.scale = scale;
-    this.index = index;
-    this.freq = this._getNoteFreq(scale, index);
-    this.isPlaying = false;
+  _type: WaveType;
+  _scale: string;
+  _index: number;
+  _freq: number;
+  _isPlaying: boolean;
+  _oscillator: OscillatorNode;
+  _gainNode: GainNode;
+
+  constructor({
+    type,
+    scale,
+    index
+  }: {
+    type: WaveType,
+    scale: string,
+    index: number
+  }) {
+    this._type = type;
+    this._scale = scale;
+    this._index = index;
+    this._freq = this._getNoteFreq();
+    this._isPlaying = false;
   }
 
   start() {
-    this.gainNode = audioCtx.createGain();
-    this.gainNode.connect(audioCtx.destination);
+    this._gainNode = audioCtx.createGain();
+    this._gainNode.connect(audioCtx.destination);
 
-    this.oscillator = this._createNewAudioNode(this.type, this.freq);
-    this.oscillator.connect(this.gainNode);
+    this._oscillator = this._createNewAudioNode(this._type, this._freq);
+    this._oscillator.connect(this._gainNode);
 
-    this.oscillator.start();
-    this.isPlaying = true;
+    this._oscillator.start();
+    this._isPlaying = true;
   }
 
   stop() {
-    this.gainNode.gain.setValueAtTime(
-      this.gainNode.gain.value,
+    this._gainNode.gain.setValueAtTime(
+      this._gainNode.gain.value,
       audioCtx.currentTime
     );
-    this.gainNode.gain.exponentialRampToValueAtTime(
+    this._gainNode.gain.exponentialRampToValueAtTime(
       0.0001,
       audioCtx.currentTime + 0.03
     );
 
     setTimeout(() => {
-      this.oscillator.stop();
-      this.gainNode.disconnect();
-      this.oscillator.disconnect();
-      this.isPlaying = false;
+      this._oscillator.stop();
+      this._gainNode.disconnect();
+      this._oscillator.disconnect();
+      this._isPlaying = false;
     }, 30);
   }
 
-  update(state) {
+  update(state: Object) {
     for (const data in state) {
-      this[data] = state[data];
+      if (data === "type") {
+        this._type = state[data];
+      } else if (data === "scale") {
+        this._scale = state[data];
+      } else if (data === "index") {
+        this._index = state[data];
+      }
     }
-    this.freq = this._getNoteFreq();
+
+    this._freq = this._getNoteFreq();
   }
 
-  _getNoteFreq() {
-    return toFreq(scaleMap[this.scale][this.index]);
+  _getNoteFreq(): number {
+    return toFreq(scaleMap[this._scale][this._index]);
   }
 
-  _createNewAudioNode(type, freq) {
+  _createNewAudioNode(type: WaveType, freq: number): OscillatorNode {
     const oscillator = audioCtx.createOscillator();
 
     oscillator.type = type;
