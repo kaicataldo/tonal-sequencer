@@ -34,9 +34,13 @@ export default class Square extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.isActive && this.props.isSelected && !this.sound.isPlaying) {
+    if (
+      this.props.isActive &&
+      this.props.isSelected &&
+      !this.sound.isPlaying()
+    ) {
       this.sound.start();
-    } else if (this.sound.isPlaying) {
+    } else if (this.sound.isPlaying()) {
       this.sound.stop();
     }
   }

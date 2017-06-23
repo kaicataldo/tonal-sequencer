@@ -18,7 +18,6 @@ export default class Grid extends Component {
   state = {
     activeRow: 0
   };
-
   intervalID = null;
 
   _startPlaying() {
@@ -42,7 +41,9 @@ export default class Grid extends Component {
 
   _updateTempo() {
     this._clearInterval();
-    this._startPlaying();
+    if (this.props.isPlaying) {
+      this._startPlaying();
+    }
   }
 
   _tick() {

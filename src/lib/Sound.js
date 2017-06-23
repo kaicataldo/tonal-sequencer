@@ -74,6 +74,10 @@ export default class Sound {
     this._freq = this._getNoteFreq();
   }
 
+  isPlaying() {
+    return this._isPlaying;
+  }
+
   _getNoteFreq(): number {
     return toFreq(scaleMap[this._scale][this._index]);
   }
