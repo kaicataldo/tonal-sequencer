@@ -1,8 +1,8 @@
 // @flow
 
-import React, { Component } from "react";
-import Grid from "./Grid";
-import Controls from "./Controls";
+import React, { Component } from 'react';
+import Grid from './Grid';
+import Controls from './Controls';
 
 export default class App extends Component {
   state = {
@@ -10,8 +10,8 @@ export default class App extends Component {
     cols: 16,
     rows: 16,
     tempo: 120,
-    type: "sine",
-    scale: "pentatonic",
+    type: 'sine',
+    scale: 'pentatonic',
     grid: this._generateNewGridData()
   };
 
@@ -35,7 +35,7 @@ export default class App extends Component {
   ) => {
     let val = event.currentTarget.value;
 
-    if (type === "tempo") {
+    if (type === 'tempo') {
       val = Number(val);
     }
     this.setState({

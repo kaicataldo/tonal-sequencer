@@ -1,7 +1,7 @@
 // @flow
 
-import { toFreq } from "tonal-freq";
-import { scaleMap } from "./sound-utils";
+import { toFreq } from 'tonal-freq';
+import { scaleMap } from './sound-utils';
 
 const audioCtx: AudioContext = new (window.AudioContext ||
   window.webkitAudioContext)();
@@ -62,11 +62,11 @@ export default class Sound {
 
   update(state: Object) {
     for (const data in state) {
-      if (data === "type") {
+      if (data === 'type') {
         this._type = state[data];
-      } else if (data === "scale") {
+      } else if (data === 'scale') {
         this._scale = state[data];
-      } else if (data === "index") {
+      } else if (data === 'index') {
         this._index = state[data];
       }
     }

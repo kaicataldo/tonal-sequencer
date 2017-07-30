@@ -1,7 +1,7 @@
 // @flow
 
-import React, { Component } from "react";
-import Square from "./Square";
+import React, { Component } from 'react';
+import Square from './Square';
 
 type Props = {
   isPlaying: boolean,
@@ -71,7 +71,7 @@ export default class Grid extends Component {
     return (
       <div>
         {this.props.grid.map((rowData, colIdx) =>
-          <div className="row" style={{ display: "inline-block" }} key={colIdx}>
+          <div className="row" style={{ display: 'inline-block' }} key={colIdx}>
             {rowData.map(({ isSelected }, rowIdx) =>
               <Square
                 key={rowIdx}

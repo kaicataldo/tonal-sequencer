@@ -1,7 +1,7 @@
 // @flow
 
-import React from "react";
-import { waveTypes } from "../lib/sound-utils";
+import React from 'react';
+import { waveTypes } from '../lib/sound-utils';
 
 export default function Controls({
   isPlaying,
@@ -21,7 +21,7 @@ export default function Controls({
   return (
     <div>
       <button onClick={onStartClick}>
-        {isPlaying ? "Stop" : "Start"}
+        {isPlaying ? 'Stop' : 'Start'}
       </button>
       <button onClick={onClearClick}>Clear</button>
       <div>
@@ -29,7 +29,7 @@ export default function Controls({
         <select
           name="type"
           value={type}
-          onChange={(...args) => onControlChange("type", ...args)}
+          onChange={(...args) => onControlChange('type', ...args)}
         >
           {waveTypes.map((type, i) => {
             return (
@@ -51,7 +51,7 @@ export default function Controls({
           min="1"
           max="250"
           step="1"
-          onChange={(...args) => onControlChange("tempo", ...args)}
+          onChange={(...args) => onControlChange('tempo', ...args)}
         />
       </div>
     </div>
