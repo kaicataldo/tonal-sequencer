@@ -17,7 +17,7 @@ export default class Square extends Component {
 
   sound = this._createNewSound();
 
-  _createNewSound() {
+  _createNewSound(): Sound {
     const { type, scale } = this.props;
     const [, rowIdx] = this.props.coords;
     return new Sound({ type, scale, index: rowIdx });

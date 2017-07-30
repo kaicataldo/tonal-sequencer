@@ -74,7 +74,7 @@ export default class Sound {
     this._freq = this._getNoteFreq();
   }
 
-  isPlaying() {
+  isPlaying(): boolean {
     return this._isPlaying;
   }
 

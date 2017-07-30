@@ -15,9 +15,7 @@ type Props = {
 export default class Grid extends Component {
   props: Props;
 
-  state = {
-    activeRow: 0
-  };
+  state = { activeRow: 0 };
   intervalID = null;
 
   _startPlaying() {

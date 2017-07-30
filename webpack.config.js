@@ -5,7 +5,10 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 let config = {
-  devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-module-source-map',
+  devtool:
+    process.env.NODE_ENV === 'production'
+      ? 'source-map'
+      : 'cheap-module-source-map',
   entry: ['./src/index.js'],
   output: {
     filename: 'app.js',
@@ -13,20 +16,19 @@ let config = {
     publicPath: '/dist/'
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader'
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
       }
-    }]
+    ]
   },
   resolve: {
     extensions: ['.js'],
-    modules: [
-      path.resolve(__dirname, 'src'),
-      'node_modules'
-    ]
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
   }
 };
 
