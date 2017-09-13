@@ -20,9 +20,7 @@ export default function Controls({
 }) {
   return (
     <div>
-      <button onClick={onStartClick}>
-        {isPlaying ? 'Stop' : 'Start'}
-      </button>
+      <button onClick={onStartClick}>{isPlaying ? 'Stop' : 'Start'}</button>
       <button onClick={onClearClick}>Clear</button>
       <div>
         <label htmlFor="type">Type</label>
@@ -41,9 +39,7 @@ export default function Controls({
         </select>
       </div>
       <div>
-        <label htmlFor="tempo">
-          Tempo: {tempo}
-        </label>
+        <label htmlFor="tempo">Tempo: {tempo}</label>
         <input
           value={tempo}
           name="tempo"

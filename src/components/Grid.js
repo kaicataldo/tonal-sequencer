@@ -68,9 +68,9 @@ export default class Grid extends Component {
   render() {
     return (
       <div>
-        {this.props.grid.map((rowData, colIdx) =>
+        {this.props.grid.map((rowData, colIdx) => (
           <div className="row" style={{ display: 'inline-block' }} key={colIdx}>
-            {rowData.map(({ isSelected }, rowIdx) =>
+            {rowData.map(({ isSelected }, rowIdx) => (
               <Square
                 key={rowIdx}
                 isActive={
@@ -82,9 +82,9 @@ export default class Grid extends Component {
                 type={this.props.type}
                 scale={this.props.scale}
               />
-            )}
+            ))}
           </div>
-        )}
+        ))}
       </div>
     );
   }
