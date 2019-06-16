@@ -1,4 +1,4 @@
-/* eslint-env node */
+'use strict';
 
 const path = require('path');
 const webpack = require('webpack');
@@ -18,7 +18,7 @@ let config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
@@ -27,7 +27,7 @@ let config = {
     ]
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.jsx'],
     modules: [path.resolve(__dirname, 'src'), 'node_modules']
   }
 };
