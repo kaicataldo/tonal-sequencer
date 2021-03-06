@@ -5,10 +5,7 @@ interface ControlsProps {
   isPlaying: boolean;
   onClearClick: () => void;
   onStartClick: () => void;
-  onControlChange: (
-    type: string,
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
+  onControlChange: (type: string, value: string | number) => void;
   type: OscillatorType;
   tempo: number;
 }
@@ -30,7 +27,9 @@ export default function Controls({
         <select
           name="type"
           value={type}
-          onChange={(event) => onControlChange('type', event)}
+          onChange={(event) =>
+            onControlChange('type', event.currentTarget.value)
+          }
         >
           {waveTypes.map((type, i) => {
             return (
@@ -50,7 +49,9 @@ export default function Controls({
           min="1"
           max="250"
           step="1"
-          onChange={(event) => onControlChange('tempo', event)}
+          onChange={(event) =>
+            onControlChange('tempo', Number(event.currentTarget.value))
+          }
         />
       </div>
     </div>

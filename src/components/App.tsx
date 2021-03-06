@@ -1,6 +1,15 @@
-import React, { Component } from 'react';
+import React, { useReducer } from 'react';
 import Grid from './Grid';
 import Controls from './Controls';
+
+const ACTIONS = {
+  RESET: 'RESET',
+  TOGGLE_PLAYING: 'TOGGLE_PLAYING',
+  TOGGLE_NOTE: 'TOGGLE_NOTE',
+  CONTROL_CHANGE: 'CONTROL_CHANGE',
+};
+
+type GridState = { isSelected: boolean }[][];
 
 interface AppState {
   isPlaying: boolean;
@@ -9,86 +18,109 @@ interface AppState {
   tempo: number;
   type: OscillatorType;
   scale: string;
-  grid: { isSelected: boolean }[][];
+  activeRow: number;
+  grid: GridState;
 }
 
-export default class App extends Component<Record<string, unknown>, AppState> {
-  state: AppState = {
+function generateNewGridState(state?: AppState): GridState {
+  const cols = state?.cols || 16;
+  const rows = state?.rows || 16;
+  const gridState = [];
+
+  for (let i = 0; i < cols; i++) {
+    const col = [];
+    for (let j = 0; j < rows; j++) {
+      col.push({ isSelected: false });
+    }
+    gridState[i] = col;
+  }
+  return gridState;
+}
+
+function appReducer(
+  state: AppState,
+  action: { type: string; payload?: any }
+): AppState {
+  switch (action.type) {
+    case ACTIONS.RESET:
+      return {
+        ...state,
+        grid: generateNewGridState(),
+      };
+
+    case ACTIONS.TOGGLE_PLAYING:
+      return { ...state, isPlaying: !state.isPlaying };
+
+    case ACTIONS.TOGGLE_NOTE: {
+      const gridClone = state.grid.slice();
+      const { col, row } = action.payload;
+      gridClone[col][row].isSelected = !gridClone[col][row].isSelected;
+      return {
+        ...state,
+        grid: gridClone,
+      };
+    }
+
+    case ACTIONS.CONTROL_CHANGE: {
+      const { type, value } = action.payload;
+      return { ...state, [type]: value };
+    }
+
+    default:
+      return state;
+  }
+}
+
+export default function App(): JSX.Element {
+  const [state, dispatch] = useReducer(appReducer, {
     isPlaying: false,
     cols: 16,
     rows: 16,
     tempo: 120,
     type: 'sine',
     scale: 'pentatonic',
-    grid: this.generateNewGridData(),
-  };
+    activeRow: 0,
+    grid: generateNewGridState(),
+  });
 
-  private resetSquares = (): void => {
-    this.setState({ grid: this.generateNewGridData() });
-  };
+  function resetGrid(): void {
+    dispatch({ type: ACTIONS.RESET });
+  }
 
-  private togglePlay = (): void => {
-    this.setState({ isPlaying: !this.state.isPlaying });
-  };
-
-  private toggleSquare = ([col, row]: [number, number]): void => {
-    const grid = this.state.grid.slice();
-    grid[col][row].isSelected = !grid[col][row].isSelected;
-    this.setState({ grid });
-  };
-
-  private controlChangeHandler = (type, event) => {
-    let val = event.currentTarget.value;
-
-    if (type === 'tempo') {
-      val = Number(val);
-    }
-    this.setState({
-      ...this.state,
-      [type]: val,
+  function togglePlay(): void {
+    dispatch({
+      type: ACTIONS.TOGGLE_PLAYING,
     });
-  };
-
-  private generateNewGridData() {
-    const cols = (this.state && this.state.cols) || 16;
-    const rows = (this.state && this.state.rows) || 16;
-    const state = [];
-
-    for (let i = 0; i < cols; i++) {
-      const col = [];
-      for (let j = 0; j < rows; j++) {
-        col.push({ isSelected: false });
-      }
-      state[i] = col;
-    }
-    return state;
   }
 
-  UNSAFE_componentWillMount(): void {
-    this.setState({ grid: this.generateNewGridData() });
+  function toggleNote([col, row]: [number, number]): void {
+    dispatch({ type: ACTIONS.TOGGLE_NOTE, payload: { col, row } });
   }
 
-  render(): JSX.Element {
-    return (
-      <div>
-        <h1>Tonal Grid</h1>
-        <Grid
-          grid={this.state.grid}
-          type={this.state.type}
-          scale={this.state.scale}
-          tempo={this.state.tempo}
-          isPlaying={this.state.isPlaying}
-          toggleSquare={this.toggleSquare}
-        />
-        <Controls
-          isPlaying={this.state.isPlaying}
-          onClearClick={this.resetSquares}
-          onStartClick={this.togglePlay}
-          type={this.state.type}
-          tempo={this.state.tempo}
-          onControlChange={this.controlChangeHandler}
-        />
-      </div>
-    );
+  function controlChangeHandler(controlType, value: string | number): void {
+    dispatch({
+      type: ACTIONS.CONTROL_CHANGE,
+      payload: { type: controlType, value },
+    });
   }
+
+  return (
+    <div>
+      <h1>Tonal Grid</h1>
+      <Grid
+        activeRow={state.activeRow}
+        grid={state.grid}
+        isPlaying={state.isPlaying}
+        toggleSquare={toggleNote}
+      />
+      <Controls
+        isPlaying={state.isPlaying}
+        onClearClick={resetGrid}
+        onStartClick={togglePlay}
+        type={state.type}
+        tempo={state.tempo}
+        onControlChange={controlChangeHandler}
+      />
+    </div>
+  );
 }
