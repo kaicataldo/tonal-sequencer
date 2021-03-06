@@ -1,6 +1,4 @@
-// @flow
-
-export const scaleMap: { [string]: Array<string> } = {
+export const scaleMap = {
   pentatonic: [
     'C7',
     'A6',
@@ -21,7 +19,7 @@ export const scaleMap: { [string]: Array<string> } = {
   ]
 };
 
-export const waveTypes: Array<string> = [
+export const waveTypes = [
   'sine',
   'sawtooth',
   'square',

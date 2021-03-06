@@ -1,71 +1,67 @@
-// @flow
-
 import React, { Component } from 'react';
 import Square from './Square';
 
-type Props = {
-  isPlaying: boolean,
-  toggleSquare: Function,
-  grid: Array<Array<{ isSelected: boolean }>>,
-  tempo: number,
-  type: WaveType,
-  scale: string
-};
+interface GridProps {
+  isPlaying: boolean;
+  toggleSquare: ([col, row]: [number, number]) => void;
+  grid: { isSelected: boolean }[][];
+  tempo: number;
+  type: OscillatorType;
+  scale: string;
+}
 
-export default class Grid extends Component {
-  props: Props;
-
+export default class Grid extends Component<GridProps> {
   state = { activeRow: 0 };
   intervalID = null;
 
-  _startPlaying() {
+  private startPlaying(): void {
     this.intervalID = window.setInterval(
-      () => this._tick(),
-      this._getTempoInMs()
+      () => this.tick(),
+      this.getTempoInMs()
     );
   }
 
-  _clearInterval() {
+  private clearInterval(): void {
     window.clearInterval(this.intervalID);
     this.intervalID = null;
   }
 
-  _stopPlaying() {
-    this._clearInterval();
+  private stopPlaying(): void {
+    this.clearInterval();
     this.setState({
-      activeRow: 0
+      activeRow: 0,
     });
   }
 
-  _updateTempo() {
-    this._clearInterval();
+  private updateTempo(): void {
+    this.clearInterval();
     if (this.props.isPlaying) {
-      this._startPlaying();
+      this.startPlaying();
     }
   }
 
-  _tick() {
+  private tick(): void {
     const maxLen = this.props.grid.length - 1;
     this.setState({
-      activeRow: this.state.activeRow === maxLen ? 0 : this.state.activeRow + 1
+      activeRow: this.state.activeRow === maxLen ? 0 : this.state.activeRow + 1,
     });
   }
 
-  _getTempoInMs(): number {
+  private getTempoInMs(): number {
     return Math.round(60000 / this.props.tempo / 4);
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: GridProps): void {
     if (this.props.tempo !== prevProps.tempo) {
-      this._updateTempo();
+      this.updateTempo();
     }
     if (this.props.isPlaying === prevProps.isPlaying) {
       return;
     }
-    this.props.isPlaying ? this._startPlaying() : this._stopPlaying();
+    this.props.isPlaying ? this.startPlaying() : this.stopPlaying();
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         {this.props.grid.map((rowData, colIdx) => (

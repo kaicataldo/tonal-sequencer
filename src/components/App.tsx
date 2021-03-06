@@ -1,38 +1,43 @@
-// @flow
-
 import React, { Component } from 'react';
 import Grid from './Grid';
 import Controls from './Controls';
 
-export default class App extends Component {
-  state = {
+interface AppState {
+  isPlaying: boolean;
+  cols: number;
+  rows: number;
+  tempo: number;
+  type: OscillatorType;
+  scale: string;
+  grid: { isSelected: boolean }[][];
+}
+
+export default class App extends Component<Record<string, unknown>, AppState> {
+  state: AppState = {
     isPlaying: false,
     cols: 16,
     rows: 16,
     tempo: 120,
     type: 'sine',
     scale: 'pentatonic',
-    grid: this._generateNewGridData()
+    grid: this.generateNewGridData(),
   };
 
-  resetSquares = () => {
-    this.setState({ grid: this._generateNewGridData() });
+  private resetSquares = (): void => {
+    this.setState({ grid: this.generateNewGridData() });
   };
 
-  togglePlay = () => {
+  private togglePlay = (): void => {
     this.setState({ isPlaying: !this.state.isPlaying });
   };
 
-  toggleSquare = ([col, row]: [number, number]) => {
+  private toggleSquare = ([col, row]: [number, number]): void => {
     const grid = this.state.grid.slice();
     grid[col][row].isSelected = !grid[col][row].isSelected;
     this.setState({ grid });
   };
 
-  controlChangeHandler = (
-    type: string,
-    event: Event & { currentTarget: HTMLSelectElement }
-  ) => {
+  private controlChangeHandler = (type, event) => {
     let val = event.currentTarget.value;
 
     if (type === 'tempo') {
@@ -40,11 +45,11 @@ export default class App extends Component {
     }
     this.setState({
       ...this.state,
-      [type]: val
+      [type]: val,
     });
   };
 
-  _generateNewGridData(): Array<Array<{ isSelected: boolean }>> {
+  private generateNewGridData() {
     const cols = (this.state && this.state.cols) || 16;
     const rows = (this.state && this.state.rows) || 16;
     const state = [];
@@ -59,11 +64,11 @@ export default class App extends Component {
     return state;
   }
 
-  componentWillMount() {
-    this.setState({ grid: this._generateNewGridData() });
+  UNSAFE_componentWillMount(): void {
+    this.setState({ grid: this.generateNewGridData() });
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         <h1>Tonal Grid</h1>
@@ -80,7 +85,6 @@ export default class App extends Component {
           onClearClick={this.resetSquares}
           onStartClick={this.togglePlay}
           type={this.state.type}
-          scale={this.state.scale}
           tempo={this.state.tempo}
           onControlChange={this.controlChangeHandler}
         />

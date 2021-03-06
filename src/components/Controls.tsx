@@ -1,7 +1,17 @@
-// @flow
-
 import React from 'react';
 import { waveTypes } from '../lib/sound-utils';
+
+interface ControlsProps {
+  isPlaying: boolean;
+  onClearClick: () => void;
+  onStartClick: () => void;
+  onControlChange: (
+    type: string,
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  type: OscillatorType;
+  tempo: number;
+}
 
 export default function Controls({
   isPlaying,
@@ -9,15 +19,8 @@ export default function Controls({
   onStartClick,
   onControlChange,
   type,
-  tempo
-}: {
-  isPlaying: boolean,
-  onClearClick: Function,
-  onStartClick: Function,
-  onControlChange: Function,
-  type: WaveType,
-  tempo: number
-}) {
+  tempo,
+}: ControlsProps): JSX.Element {
   return (
     <div>
       <button onClick={onStartClick}>{isPlaying ? 'Stop' : 'Start'}</button>
@@ -27,7 +30,7 @@ export default function Controls({
         <select
           name="type"
           value={type}
-          onChange={(...args) => onControlChange('type', ...args)}
+          onChange={(event) => onControlChange('type', event)}
         >
           {waveTypes.map((type, i) => {
             return (
@@ -47,7 +50,7 @@ export default function Controls({
           min="1"
           max="250"
           step="1"
-          onChange={(...args) => onControlChange('tempo', ...args)}
+          onChange={(event) => onControlChange('tempo', event)}
         />
       </div>
     </div>

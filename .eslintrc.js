@@ -1,30 +1,37 @@
 'use strict';
 
 module.exports = {
-  parser: 'babel-eslint',
+  parserOptions: {
+    sourceType: 'module',
+    jsx: true,
+  },
   env: {
     es6: true,
-    node: true
+    node: true,
   },
-  plugins: ['react', 'flowtype'],
+  plugins: ['@typescript-eslint', 'react'],
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'prettier',
     'plugin:react/recommended',
-    'plugin:flowtype/recommended'
   ],
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+    },
     {
       files: ['src/**/*'],
       env: {
         browser: true,
-        node: false
-      }
-    }
-  ]
+        node: false,
+      },
+    },
+  ],
 };
